@@ -1,0 +1,26 @@
+# Local specific ignores
+/vendor/
+/node_modules/
+/public/hot
+/public/storage
+/public/build
+/storage/*.key
+/storage/app/public/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/logs/
+.env
+.env.*
+!.env.example
+.phpunit.result.cache
+phpunit.xml
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+_ide_helper.php
+.phpstorm.meta.php
+*.cache

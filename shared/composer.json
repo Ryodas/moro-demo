@@ -1,0 +1,33 @@
+{
+    "name": "tanaryo-cloud/shared",
+    "description": "Shared library for Tanaryo Cloud",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Ryo Tanaka",
+            "email": "ryodas0789@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TanaryoCloud\\Shared\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TanaryoCloud\\Shared\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.9",
+        "firebase/php-jwt": "^6.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TanaryoCloud\\Shared\\Providers\\SharedServiceProvider"
+            ]
+        }
+    }
+}

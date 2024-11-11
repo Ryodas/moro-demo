@@ -1,44 +1,74 @@
 {
-    "name": "tanaryo-cloud/tanaryo-cloud",
-    "description": "Tanaryo Cloud Monorepo",
-    "type": "project",
-    "authors": [
-        {
-            "name": "Ryo Tanaka",
-            "email": "ryodas0789@gmail.com"
-        }
+  "name": "tanaryo-cloud/tanaryo-cloud",
+  "description": "Tanaryo Cloud Monorepo",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Ryo Tanaka",
+      "email": "ryodas0789@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "shared",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "tanaryo-cloud/shared": "*"
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "shared",
-            "options": {
-                "symlink": true
-            }
-        }
+    "post-install-cmd": [
+      "cd shared && composer install",
+      "cd services/auth-service && composer install",
+      "cd services/lottery-service && composer install"
     ],
-    "require": {
-        "php": "^8.2",
-        "tanaryo-cloud/shared": "*"
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "test": [
-            "@php services/auth-service/artisan test",
-            "@php services/lottery-service/artisan test"
-        ],
-        "post-install-cmd": [
-            "cd services/auth-service && composer install",
-            "cd services/lottery-service && composer install"
-        ]
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "post-update-cmd": [
+      "cd shared && composer update",
+      "cd services/auth-service && composer update",
+      "cd services/lottery-service && composer update"
+    ],
+    "setup-env": [
+      "@php -r \"file_exists('services/auth-service/.env') || copy('services/auth-service/.env.example', 'services/auth-service/.env');\"",
+      "@php -r \"file_exists('services/lottery-service/.env') || copy('services/lottery-service/.env.example', 'services/lottery-service/.env');\"",
+      "@php -r \"shell_exec('sed -i \\'\\' \\'s/DB_DATABASE=.*/DB_DATABASE=auth_service/\\' services/auth-service/.env');\"",
+      "@php -r \"shell_exec('sed -i \\'\\' \\'s/DB_DATABASE=.*/DB_DATABASE=lottery_service/\\' services/lottery-service/.env');\""
+    ],
+    "setup": [
+      "@setup-env",
+      "@composer install",
+      "cd services/auth-service && php artisan key:generate",
+      "cd services/lottery-service && php artisan key:generate"
+    ],
+    "docker-up": [
+      "docker-compose up -d --build"
+    ],
+    "migrate": [
+      "cd services/auth-service && php artisan migrate:fresh --seed",
+      "cd services/lottery-service && php artisan migrate:fresh --seed"
+    ],
+    "test": [
+      "@php services/auth-service/artisan test",
+      "@php services/lottery-service/artisan test"
+    ],
+    "app-init": [
+      "@setup",
+      "@docker-up",
+      "@php -r \"sleep(30);\"",
+      "@migrate"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

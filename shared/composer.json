@@ -8,26 +8,12 @@
             "email": "ryodas0789@gmail.com"
         }
     ],
+    "require": {
+        "php": "^8.2"
+    },
     "autoload": {
         "psr-4": {
             "TanaryoCloud\\Shared\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "TanaryoCloud\\Shared\\Tests\\": "tests/"
-        }
-    },
-    "require": {
-        "php": "^8.2",
-        "laravel/framework": "^11.9",
-        "firebase/php-jwt": "^6.0"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "TanaryoCloud\\Shared\\Providers\\SharedServiceProvider"
-            ]
         }
     }
 }

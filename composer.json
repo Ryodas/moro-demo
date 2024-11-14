@@ -26,12 +26,10 @@
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
-      "cd shared && composer install",
       "cd services/auth-service && composer install",
       "cd services/lottery-service && composer install"
     ],
     "post-update-cmd": [
-      "cd shared && composer update",
       "cd services/auth-service && composer update",
       "cd services/lottery-service && composer update"
     ],
@@ -70,5 +68,10 @@
     "optimize-autoloader": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "TanaryoCloud\\Shared\\": "shared/src/"
+    }
+  }
 }

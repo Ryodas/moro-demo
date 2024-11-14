@@ -62,8 +62,14 @@ services:
       - MYSQL_DATABASE=auth_service
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
     networks:
       - tanaryo-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:

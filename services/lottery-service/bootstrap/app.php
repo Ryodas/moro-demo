@@ -13,8 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
-        $middleware->append(VerifyJwtToken::class);
+        $middleware->alias([
+            'jwt.verify' => VerifyJwtToken::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

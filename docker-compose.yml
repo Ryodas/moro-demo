@@ -8,6 +8,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./services/auth-service:/var/www/auth-service
+    working_dir: /var/www/auth-service
     networks:
       - tanaryo-network
     depends_on:
@@ -19,6 +20,7 @@ services:
       - DB_DATABASE=auth_service
       - DB_USERNAME=root
       - DB_PASSWORD=secret
+      - JWT_SECRET=${JWT_SECRET}
 
   lottery-service:
     build:
@@ -26,6 +28,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./services/lottery-service:/var/www/lottery-service
+    working_dir: /var/www/lottery-service
     networks:
       - tanaryo-network
     depends_on:
@@ -37,6 +40,7 @@ services:
       - DB_DATABASE=lottery_service
       - DB_USERNAME=root
       - DB_PASSWORD=secret
+      - JWT_SECRET=${JWT_SECRET}
 
   nginx:
     image: nginx:alpine

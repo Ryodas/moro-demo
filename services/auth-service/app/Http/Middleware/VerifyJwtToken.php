@@ -1,5 +1,5 @@
 <?php
-// services/auth-service/app/Http/Middleware/ValidateJwtToken.php
+// services/auth-service/app/Http/Middleware/VerifyJwtToken.php
 namespace App\Http\Middleware;
 
 use TanaryoCloud\Shared\Services\JwtService;
@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ValidateJwtToken
+class VerifyJwtToken
 {
     private JwtService $jwtService;
 

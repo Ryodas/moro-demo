@@ -18,7 +18,9 @@
     }
   ],
   "require": {
-    "php": "^8.2",
+    "php": "^8.2"
+  },
+  "replace": {
     "tanaryo-cloud/shared": "*"
   },
   "scripts": {
@@ -26,10 +28,12 @@
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
+      "cd shared && composer install",
       "cd services/auth-service && composer install",
       "cd services/lottery-service && composer install"
     ],
     "post-update-cmd": [
+      "cd shared && composer update",
       "cd services/auth-service && composer update",
       "cd services/lottery-service && composer update"
     ],
@@ -49,8 +53,8 @@
       "docker-compose up -d --build"
     ],
     "migrate": [
-      "cd services/auth-service && php artisan migrate:fresh --seed",
-      "cd services/lottery-service && php artisan migrate:fresh --seed"
+      "docker-compose exec auth-service php artisan migrate:fresh --seed",
+      "docker-compose exec lottery-service php artisan migrate:fresh --seed"
     ],
     "test": [
       "@php services/auth-service/artisan test",
@@ -59,7 +63,7 @@
     "app-init": [
       "@setup",
       "@docker-up",
-      "@php -r \"sleep(30);\"",
+      "@php -r \"echo 'Waiting for database to be ready...\n'; sleep(30);\"",
       "@migrate"
     ]
   },
